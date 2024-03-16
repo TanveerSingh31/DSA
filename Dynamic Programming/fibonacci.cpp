@@ -26,7 +26,7 @@ int fibonacci(int n, int *dp){
 int main() {
 	// your code goes here
 	int *dp = new int[5+1];
-	
+    //===================================================================================
     // for dp 
 	for(int i=0;i<6;i++){
 	    dp[i] = -1;
@@ -37,7 +37,7 @@ int main() {
 	    cout<<dp[i]<<" ";
 	}
 	cout<<endl;
-    
+
     //===================================================================================
     // for tabulation
     // add base case , in dp array
@@ -45,13 +45,20 @@ int main() {
     dp[1] = 1;
 
     // no need to call rescursion , only iteratively add elements from down to top
-    for(int i=2;i<=n;i++){
+    for(int i=2;i<=5;i++){
         dp[i] = dp[i-1] + dp[i-2];
     }
 
     cout<<dp[5]<<endl;
 
-
-	
+    // ========================================================================
+    // eliminating space complexity (no need of addit. array)
+    int prev = 1, prev2 = 0;
+    for(int i=2;i<=5;i++){
+        int curr = prev + prev2;
+        prev2 = prev;
+        prev = curr;
+    }
+    cout<< prev << endl;
 	
 }
