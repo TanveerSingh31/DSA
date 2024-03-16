@@ -27,7 +27,6 @@ int main() {
 	// your code goes here
 	int *dp = new int[5+1];
 	
-	// adding base case , 
 	for(int i=0;i<6;i++){
 	    dp[i] = -1;
 	}
