@@ -27,13 +27,31 @@ int main() {
 	// your code goes here
 	int *dp = new int[5+1];
 	
+    // for dp 
 	for(int i=0;i<6;i++){
 	    dp[i] = -1;
 	}
 	cout<<fibonacci(5, dp)<<endl;
-	
-	for(int i=0;i<6;i++){
+
+    for(int i=0;i<6;i++){
 	    cout<<dp[i]<<" ";
 	}
 	cout<<endl;
+    
+    //===================================================================================
+    // for tabulation
+    // add base case , in dp array
+    dp[0] = 0;
+    dp[1] = 1;
+
+    // no need to call rescursion , only iteratively add elements from down to top
+    for(int i=2;i<=n;i++){
+        dp[i] = dp[i-1] + dp[i-2];
+    }
+
+    cout<<dp[5]<<endl;
+
+
+	
+	
 }
