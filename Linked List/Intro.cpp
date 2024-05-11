@@ -18,7 +18,7 @@ class Node{
 int main() {
 	// your code goes here
     
-
+    // Static allocation 
     Node n1(12);
     Node n2(145);
     
@@ -29,4 +29,23 @@ int main() {
         cout<<head->data<<endl;
         head = head->next;
     }
+    
+    // =================================================================
+     
+    // Dynamic Allocation
+    Node * n3 = new Node(100);
+    Node * n4 = new Node(200);
+
+    // n3 , n4 contain address to the Nodes stored on heap memory
+    
+    n3->next = n4;    
+    
+    Node * newHead = n3;
+    
+    // iterating over linked list
+    while(newHead != NULL){
+        cout<<newHead->data<<endl;
+        newHead = newHead->next;
+    }
+    
 }
