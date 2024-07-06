@@ -11,40 +11,34 @@ class Queue_custom{
   int nextIndex;
   int firstIndex;
   int size;
+  int capacity;
   
   
   public: 
   
-  Queue_custom(){
+  Queue_custom(int size){
     arr = new int[5];
     nextIndex = 0;
     firstIndex = -1;
-    size = 0;
+    this->size = 0;
+    capacity = size;
   }
   
   
   void enqueue(int element){
     
-    if(nextIndex > 4){
-        nextIndex = 0;
-    }
+    if(size == capacity)
+        return; // Queue is Full
     
-    if(nextIndex == firstIndex){
-        cout<<"QUEUE IS FULL"<<endl;
-        return;
-    }
     
     if(firstIndex == -1) firstIndex = nextIndex; 
     arr[nextIndex] = element;
-    nextIndex++;
+    nextIndex = (nextIndex + 1) % capacity;
     size++;
   }
   
   
   int dequeue(){
-    if(firstIndex > 4){
-        firstIndex = 0;
-    }  
     
     if(size == 0){
         cout<<"QUEUE IS EMPTY"<<endl;
@@ -52,7 +46,7 @@ class Queue_custom{
     }
       
     int element = arr[firstIndex];
-    firstIndex++;
+    firstIndex = (firstIndex + 1) % capacity;
     size--;
     
     return element;
@@ -60,7 +54,8 @@ class Queue_custom{
   
   
   int getFront(){
-      if(firstIndex < 0 || firstIndex == nextIndex) return -1;
+      if(size == 0)
+        return -1; // Queue is empty
       
       return arr[firstIndex];
   }
@@ -79,7 +74,7 @@ class Queue_custom{
 int main() {
 	// your code goes here
 
-    Queue_custom q1;
+    Queue_custom q1(5);
     
     q1.enqueue(10);
     q1.enqueue(20);
@@ -102,4 +97,6 @@ int main() {
     cout<<q1.dequeue()<<endl;
     cout<<q1.dequeue()<<endl;
     cout<<q1.dequeue()<<endl;
+    
+    cout<<q1.getFront()<<endl;
 }
