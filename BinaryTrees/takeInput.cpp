@@ -2,6 +2,7 @@
 #include "BinaryTreeClass.h"
 using namespace std;
 
+// take input - Recursive
 
 BinaryTreeNode<int> * takeInput(){
     int rootData;
