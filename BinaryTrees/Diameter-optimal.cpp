@@ -3,8 +3,6 @@
 #include "BinaryTreeClass.h"
 using namespace std;
 
-
-
 BinaryTreeNode<int> * takeInputLevelWise(){
 
     int rootData;
@@ -49,15 +47,9 @@ BinaryTreeNode<int> * takeInputLevelWise(){
 
 }
 
-
-// TC = O(n)
-int height(BinaryTreeNode<int> *root) {
-
-    if(root == NULL) return 0;
-
-    return 1 + max(height(root->left), height(root->right));
-}
-
+// T = O(n) =>
+// NOTE :  in Tree we will generally get multiple items from single func. call,
+// instead of doing multiple func. calls to get different things, to avoid repetition
 pair<int, int> getHeightDiameter(BinaryTreeNode<int> *root) {
 
     if(root == NULL) return make_pair(0, 0);
@@ -74,7 +66,6 @@ pair<int, int> getHeightDiameter(BinaryTreeNode<int> *root) {
 
     int currHeight = 1+max(leftHeight, rightHeight);
 
-
     return make_pair(currHeight, max(currAns, max(leftDiameter, rightDiameter)));
 }
 
@@ -82,6 +73,7 @@ pair<int, int> getHeightDiameter(BinaryTreeNode<int> *root) {
 // Treeinput -> 100 50 60 40 30 20 10 -1 -1 8 9 -1 -1 -1 -1 -1 -1 -1 -1
 // Treeinput2 -> 100 -1 60 -1 40 -1 30 -1 20 -1 -1  = right sided tree (unbalanced)
 // TreeInput3 -> 100 20 30 30 40 -1 -1 50 40 -1 50 -1 -1 -1 70 -1 60 -1 -1 70 -1 -1 -1 (diameter present on left side of tree)
+
 int main() { 
 
     BinaryTreeNode<int>* root = takeInputLevelWise();
