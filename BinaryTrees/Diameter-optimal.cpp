@@ -58,25 +58,36 @@ int height(BinaryTreeNode<int> *root) {
     return 1 + max(height(root->left), height(root->right));
 }
 
-int getDiameter(BinaryTreeNode<int> *root) {
+pair<int, int> getHeightDiameter(BinaryTreeNode<int> *root) {
 
-    if(root == NULL) return 0;
+    if(root == NULL) return make_pair(0, 0);
 
-    int ans1 = height(root->left) + height(root->right);
-    int ans2 = getDiameter(root->left);
-    int ans3 = getDiameter(root->right);
+    pair<int, int> leftAns = getHeightDiameter(root->left);
+    int leftHeight = leftAns.first;
+    int leftDiameter = leftAns.second; 
 
-    return max(ans1, max(ans2, ans3));
+    pair<int, int> rightAns = getHeightDiameter(root->right);
+    int rightHeight = rightAns.first;
+    int rightDiameter = rightAns.second;
+
+    int currAns = leftHeight + rightHeight;
+
+    int currHeight = 1+max(leftHeight, rightHeight);
+
+
+    return make_pair(currHeight, max(currAns, max(leftDiameter, rightDiameter)));
 }
 
 
-// Treeinput - 100 50 60 40 30 20 10 -1 -1 8 9 -1 -1 -1 -1 -1 -1 -1 -1
+// Treeinput -> 100 50 60 40 30 20 10 -1 -1 8 9 -1 -1 -1 -1 -1 -1 -1 -1
+// Treeinput2 -> 100 -1 60 -1 40 -1 30 -1 20 -1 -1  = right sided tree (unbalanced)
+// TreeInput3 -> 100 20 30 30 40 -1 -1 50 40 -1 50 -1 -1 -1 70 -1 60 -1 -1 70 -1 -1 -1 (diameter present on left side of tree)
 int main() { 
 
     BinaryTreeNode<int>* root = takeInputLevelWise();
 
-    int diameter = getDiameter(root);
-    cout<<"diameter = "<<diameter<<endl;
+    pair<int, int> diameter = getHeightDiameter(root);
+    cout<<"diameter = "<<diameter.second<<endl;
 
     return 0;
 }
