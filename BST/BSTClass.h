@@ -1,5 +1,6 @@
 #include<iostream>
 using namespace std;
+#include<queue>
 #include "BinaryTreeClass.h"
 
 // BST Class will internally maintain a BinaryTree that is a BST
@@ -13,7 +14,7 @@ class BST {
         this->root = NULL;
     }
 
-    ~BST() {
+    ~ BST() {
         delete root;
     }
 
@@ -38,7 +39,10 @@ class BST {
     // Helper fn. insertData
     private:
     void insertData(int data, BinaryTreeNode<int>* node){
-        if(node == NULL) this->root = new BinaryTreeNode<int>(data);
+        if(node == NULL){
+            this->root = new BinaryTreeNode<int>(data);
+            return;
+        } 
 
         if(data < node->data) {
             if(node->left == NULL) node->left = new BinaryTreeNode<int>(data);
@@ -58,15 +62,84 @@ class BST {
 
 
     private:
-    void deleteData(int el, BinaryTreeNode<int>* node){
-        if(node == NULL) return;
+    BinaryTreeNode<int>* deleteData(int el, BinaryTreeNode<int>* node){
+        if(node == NULL) return NULL;
 
-        
+        if(node->data == el) {
+            if(node->left == NULL && node->right != NULL) {
+                BinaryTreeNode<int>* ans = node->right;
+                node->right = NULL;
+                delete node;
+                return ans;
+            } 
+            else if(node->left != NULL && node->right == NULL) {
+                BinaryTreeNode<int>* ans = node->left;
+                node->left = NULL;
+                delete node;
+                return ans;
+            }
+            else {
+                BinaryTreeNode<int>* newAns = node->left;
+                BinaryTreeNode<int>* temp = node->left;
+
+                while(temp->right != NULL) {
+                    temp = temp->right;
+                }
+
+
+                temp->right = node->right;
+                node->left = NULL;
+                node->right = NULL;
+                delete node;
+
+                return newAns;
+            }
+        } 
+        else if(el < node->data) {
+            node->left = deleteData(el, node->left);
+            return node;
+        }
+        else {
+            node->right = deleteData(el, node->right);
+            return node;
+        }
     }
 
     public: 
     void deleteData(int element) {
-        deleteData(element, this->root);
+        this->root = deleteData(element, this->root);
     }
+
+
+
+
+    public: 
+    void printBSTLevelWise(){
+
+    if(root == NULL) return;
+
+    queue<BinaryTreeNode<int>* > pendingNodes;
+    pendingNodes.push(root);
+
+    while(!pendingNodes.empty()) {
+        BinaryTreeNode<int>* node = pendingNodes.front();
+        pendingNodes.pop();
+
+        cout<<node->data<<" :";
+
+        if(node->left){
+            cout<<"L "<<node->left->data<<" ";
+            pendingNodes.push(node->left);
+        }
+        if(node->right){
+            cout<<"R "<<node->right->data;
+            pendingNodes.push(node->right);
+        }
+
+        cout<<endl;
+    }
+
+    return;
+}
 
 };
