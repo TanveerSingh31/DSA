@@ -66,7 +66,11 @@ class BST {
         if(node == NULL) return NULL;
 
         if(node->data == el) {
-            if(node->left == NULL && node->right != NULL) {
+            if(node->left == NULL && node->right == NULL) {
+                delete node;
+                return NULL;
+            }
+            else if(node->left == NULL && node->right != NULL) {
                 BinaryTreeNode<int>* ans = node->right;
                 node->right = NULL;
                 delete node;
@@ -79,20 +83,18 @@ class BST {
                 return ans;
             }
             else {
-                BinaryTreeNode<int>* newAns = node->left;
-                BinaryTreeNode<int>* temp = node->left;
+                BinaryTreeNode<int>* temp = node->right;
 
-                while(temp->right != NULL) {
-                    temp = temp->right;
+                // find the smallest Node in right subtree and replace with root
+                while(temp->left != NULL) {
+                    temp = temp->left;
                 }
 
+                int tempData = temp->data;
+                node->data = temp->data;
+                node->right = deleteData(tempData, node->right);
 
-                temp->right = node->right;
-                node->left = NULL;
-                node->right = NULL;
-                delete node;
-
-                return newAns;
+                return root;
             }
         } 
         else if(el < node->data) {
